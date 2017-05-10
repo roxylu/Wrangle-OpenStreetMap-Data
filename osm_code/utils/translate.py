@@ -5,7 +5,7 @@ import md5
 import urllib
 import random
 import json
-from utils import set_cache, get_cache
+from .cache import set_cache, get_cache
 
 
 httpClient = httplib.HTTPConnection('api.fanyi.baidu.com')

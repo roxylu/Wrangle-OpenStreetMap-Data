@@ -5,7 +5,7 @@ import string
 import xml.etree.cElementTree as ET
 import unicodedata as ud
 
-from translate import make_translation
+from utils.translate import make_translation
 
 
 OSMFILE = "shanghai.osm"
