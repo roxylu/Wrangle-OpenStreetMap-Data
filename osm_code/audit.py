@@ -8,7 +8,7 @@ import unicodedata as ud
 from utils.translate import make_translation
 
 
-OSMFILE = "shanghai.osm"
+OSM_FILE = "shanghai.osm"
 EXPECTED = "路".decode('utf-8')
 APP_ID = "YOUR_APP_ID"
 SECRET_KEY = "YOUR_SECRET_KEY"
@@ -16,11 +16,11 @@ SECRET_KEY = "YOUR_SECRET_KEY"
 
 def audit():
     """
-    audit the OSMFILE and
+    audit the OSM_FILE and
     return a list of street names that does not ends with the EXPECTED word
     """
 
-    osm_file = open(OSMFILE, "r")
+    osm_file = open(OSM_FILE, "r")
     invalid_street_names = set([])
 
     for event, elem in ET.iterparse(osm_file, events=("start",)):
@@ -147,7 +147,7 @@ def main():
         globals()['APP_ID'] = args.app_id
         globals()['SECRET_KEY'] = args.secret_key
 
-    # audit the OSMFILE
+    # audit the OSM_FILE
     invalid_street_names = audit()
 
     # fix the invalid street names

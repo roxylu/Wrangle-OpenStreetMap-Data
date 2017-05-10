@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import xml.etree.cElementTree as ET
-
 import pprint
+
+OSM_FILE = "shanghai.osm"
 
 
 def count_tags(filename):
@@ -19,7 +20,7 @@ def count_tags(filename):
 
 
 def main():
-    tags = count_tags('shanghai.osm')
+    tags = count_tags(OSM_FILE)
     pprint.pprint(tags)
 
 

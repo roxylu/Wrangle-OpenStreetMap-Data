@@ -4,6 +4,7 @@ import xml.etree.cElementTree as ET
 import pprint
 import re
 
+OSM_FILE = "shanghai.osm"
 lower = re.compile(r'^([a-z]|_)*$')
 lower_colon = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
 problemchars = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
@@ -43,7 +44,7 @@ def process_map(filename):
 
 
 def main():
-    keys = process_map('shanghai.osm')
+    keys = process_map(OSM_FILE)
     pprint.pprint(keys)
 
 
