@@ -44,7 +44,6 @@ if [ "$skip_python" != "1" ]; then
 
     if [ ! -d "env" ]; then
         virtualenv env --system-site-packages
-        scl_patch_virtualenv env
     fi
 
     ln -sf env/bin/activate
