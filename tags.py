@@ -30,9 +30,8 @@ def key_type(element, keys):
                 keys['problemchars'] += 1
             else:
                 keys['other'] += 1
-        
-    return keys
 
+    return keys
 
 
 def process_map(filename):
@@ -41,7 +40,6 @@ def process_map(filename):
         keys = key_type(element, keys)
 
     return keys
-
 
 
 def main():
