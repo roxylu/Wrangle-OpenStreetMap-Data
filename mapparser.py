@@ -4,6 +4,7 @@ import xml.etree.cElementTree as ET
 
 import pprint
 
+
 def count_tags(filename):
     """
     Returns a dictionary with the tag name as the key
@@ -16,11 +17,11 @@ def count_tags(filename):
 
     return tags
 
-def main():
 
+def main():
     tags = count_tags('shanghai.osm')
     pprint.pprint(tags)
-    
+
 
 if __name__ == "__main__":
     main()
