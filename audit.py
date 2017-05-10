@@ -29,9 +29,8 @@ def audit():
             for tag in elem.iter("tag"):
                 if is_street_name(tag):
                     value = tag.attrib['v']
-		    if not is_valid_street_name(value):
+                    if not is_valid_street_name(value):
                         invalid_street_names.add(value)
-			
     osm_file.close()
     return invalid_street_names
 
@@ -56,7 +55,7 @@ def update_name(name):
         1.1 remove all english characters from string
         1.2 remove anything behind EXPECTED word
         1.3 return result.
-    2 Else 
+    2 Else
         2.1 translate processed english string to chinese
         2.2 remove anything behind EXPECTED word
         2.3 return result
@@ -69,17 +68,15 @@ def update_name(name):
     print "[-]" + name
 
     if contains_chinese_chars(name):
-	# remove all english characters from string
-	updated_name = strip_ascii_chars(name)
+        # remove all english characters from string
+        updated_name = strip_ascii_chars(name)
     else:
-	# translate processed english string to chinese
-	updated_name = make_translation(name, APP_ID, SECRET_KEY)
+        # translate processed english string to chinese
+        updated_name = make_translation(name, APP_ID, SECRET_KEY)
 
     # remove anything behind EXPECTED word
     name = strip_detailed_name(updated_name)
-
-    print "[+]" + name
-
+    return name
 
 
 def contains_chinese_chars(name):
@@ -110,16 +107,17 @@ def strip_ascii_chars(name):
     def isAscii(s):
         for c in s:
             if c not in string.ascii_letters and \
-	       c not in string.punctuation and \
-	       c not in string.digits and c not in string.whitespace:
+               c not in string.punctuation and \
+               c not in string.digits and \
+               c not in string.whitespace:
                 return False
         return True
-        
+
     char_array = []
     for n in name:
         if not isAscii(n):
             char_array.append(n)
-    
+
     return "".join(n for n in char_array)
 
 
@@ -135,12 +133,14 @@ def strip_detailed_name(name):
 def main():
     # parse args for baidu translate api
     parser = argparse.ArgumentParser()
-    parser.add_argument('-a', dest='app_id',
-                      help='specify app id for baidu translate api')
-    parser.add_argument('-s', dest='secret_key',
-                      help='specify secret key for baidu translate api')
+    parser.add_argument(
+        '-a', dest='app_id',
+        help='specify app id for baidu translate api')
+    parser.add_argument(
+        '-s', dest='secret_key',
+        help='specify secret key for baidu translate api')
     args = parser.parse_args()
-    if (args.app_id == None) | (args.secret_key == None):
+    if (args.app_id is None) | (args.secret_key is None):
         parser.print_help()
         exit(0)
     else:
@@ -153,6 +153,7 @@ def main():
     # fix the invalid street names
     for name in invalid_street_names:
         better_name = update_name(name)
+        print "[+]" + better_name
 
 
 if __name__ == '__main__':
