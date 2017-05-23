@@ -7,7 +7,7 @@ import json
 
 from audit import update_name, is_valid_street_name
 
-OSM_FILE = "shanghai_sample.osm"
+OSM_FILE = "shanghai.osm"
 CREATED = ["version", "changeset", "timestamp", "user", "uid"]
 lower = re.compile(r'^([a-z]|_)*$')
 lower_colon = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
@@ -61,7 +61,13 @@ def shape_element(element):
                             if second_tag == 'street' and not is_valid_street_name(value):
                                 value = update_name(value)
 
-                            node.setdefault('address', {}).update({second_tag: value})
+                            try:
+                                node.setdefault('address', {}).update({second_tag: value})
+                            except:
+                                # Sometimes we have <tag k="address" v="SOMETHING"/>
+                                # Here we need to convert the string type to dict for address key
+                                node['address'] = {}
+                                node.setdefault('address', {}).update({second_tag: value})
                     else:
                         node[key_name] = tag.attrib["v"]
 
