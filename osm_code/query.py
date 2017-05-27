@@ -53,6 +53,29 @@ def make_pipeline_for_supermarket():
     return pipeline
 
 
+def make_pipeline_for_nodes():
+    pipeline = [
+        {'$match': {'type': 'node',
+                    'address': {'$exists': 0}}},
+        {'$group': {'_id': 'Nodes_without_address',
+                    'count': {'$sum': 1}}},
+        {'$sort': {'count': -1}},
+        {'$limit': 5}
+    ]
+    return pipeline
+
+
+def make_pipeline_for_streets():
+    pipeline = [
+        {'$match': {'address.street': {'$exists': 1}}},
+        {'$group': {'_id': '$address.street',
+                    'count': {'$sum': 1}}},
+        {'$sort': {'count': -1}},
+        {'$limit': 5}
+    ]
+    return pipeline
+
+
 def aggregate(db, pipeline):
     return [doc for doc in db.shanghai.aggregate(pipeline)]
 
@@ -105,3 +128,19 @@ if __name__ == "__main__":
     result = aggregate(db, pipeline)
     for shop in result:
         print shop['_id'] + ": " + str(shop['count'])
+    print "==========================================="
+
+    # Number of nodes without addresses
+    print "Number of nodes without addresses:"
+    pipeline = make_pipeline_for_nodes()
+    result = aggregate(db, pipeline)
+    for node in result:
+        print node['_id'] + ": " + str(node['count'])
+    print "==========================================="
+
+    # Number of top 5 street addresses
+    print "Number of top 5 street addresses:"
+    pipeline = make_pipeline_for_streets()
+    result = aggregate(db, pipeline)
+    for node in result:
+        print node['_id'] + ": " + str(node['count'])
