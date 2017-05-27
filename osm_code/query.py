@@ -41,14 +41,14 @@ def make_pipeline_for_shops():
     return pipeline
 
 
-def make_pipeline_for_supermarket():
+def make_pipeline_for_convenience():
     pipeline = [
-        {'$match': {'shop': 'supermarket',
+        {'$match': {'shop': 'convenience',
                     'name': {'$exists': 1}}},
         {'$group': {'_id': '$name',
                     'count': {'$sum': 1}}},
         {'$sort': {'count': -1}},
-        {'$limit': 5}
+        {'$limit': 10}
     ]
     return pipeline
 
@@ -72,6 +72,16 @@ def make_pipeline_for_streets():
                     'count': {'$sum': 1}}},
         {'$sort': {'count': -1}},
         {'$limit': 5}
+    ]
+    return pipeline
+
+def make_pipeline_for_amenities():
+    pipeline = [
+        {'$match': {'amenity': {'$exists': 1}}},
+        {'$group': {'_id': '$amenity',
+                    'count': {'$sum': 1}}},
+        {'$sort': {'count': -1}},
+        {'$limit': 10}
     ]
     return pipeline
 
@@ -122,9 +132,9 @@ if __name__ == "__main__":
         print shop['_id'] + ": " + str(shop['count'])
     print "==========================================="
 
-    # Number of top 5 supermarket
-    print "Number of top 5 supermarket:"
-    pipeline = make_pipeline_for_supermarket()
+    # Number of top 10 convenience
+    print "Number of top 10 convenience:"
+    pipeline = make_pipeline_for_convenience()
     result = aggregate(db, pipeline)
     for shop in result:
         print shop['_id'] + ": " + str(shop['count'])
@@ -144,3 +154,11 @@ if __name__ == "__main__":
     result = aggregate(db, pipeline)
     for node in result:
         print node['_id'] + ": " + str(node['count'])
+    print "==========================================="
+
+    # Number of top 10 amenities
+    print "Number of top 10 amenities:"
+    pipeline = make_pipeline_for_amenities()
+    result = aggregate(db, pipeline)
+    for amenity in result:
+        print amenity['_id'] + ": " + str(amenity['count'])
